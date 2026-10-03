@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>en</string>
+	<key>CFBundleExecutable</key>
+	<string>AsusWMIProbe</string>
+	<key>CFBundleIdentifier</key>
+	<string>com.asuswmicontrol.probe</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundleName</key>
+	<string>AsusWMIProbe</string>
+	<key>CFBundlePackageType</key>
+	<string>KEXT</string>
+	<key>CFBundleShortVersionString</key>
+	<string>0.1.0</string>
+	<key>CFBundleSupportedPlatforms</key>
+	<array>
+		<string>MacOSX</string>
+	</array>
+	<key>CFBundleVersion</key>
+	<string>0.1.0</string>
+	<key>IOKitPersonalities</key>
+	<dict>
+		<key>AsusWMIProbe</key>
+		<dict>
+			<key>CFBundleIdentifier</key>
+			<string>com.asuswmicontrol.probe</string>
+			<key>IOClass</key>
+			<string>AsusWMIProbe</string>
+			<!-- Own category: attaches next to AsusSMC instead of competing with it -->
+			<key>IOMatchCategory</key>
+			<string>AsusWMIProbe</string>
+			<key>IONameMatch</key>
+			<array>
+				<string>PNP0C14</string>
+				<string>pnp0c14</string>
+			</array>
+			<key>IOProviderClass</key>
+			<string>IOACPIPlatformDevice</string>
+		</dict>
+	</dict>
+	<key>OSBundleLibraries</key>
+	<dict>
+		<key>com.apple.iokit.IOACPIFamily</key>
+		<string>1.0.0d1</string>
+		<key>com.apple.kpi.iokit</key>
+		<string>16.7</string>
+		<key>com.apple.kpi.libkern</key>
+		<string>16.7</string>
+		<key>com.apple.kpi.mach</key>
+		<string>16.7</string>
+	</dict>
+</dict>
+</plist>
