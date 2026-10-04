@@ -104,7 +104,7 @@ VERSION := $(shell /usr/libexec/PlistBuddy -c 'Print CFBundleShortVersionString'
 RELEASE := MHelper-$(VERSION)
 REL_DIR := $(BUILD_DIR)/release/$(RELEASE)
 # One folder for users: the app, the kext, how to install; the rest in Extras/.
-# The .dmg adds an Applications link to drag the app onto.
+# The .dmg is styled: drag the app onto Applications (tools/make_dmg.sh).
 release: all probe
 	@rm -rf $(BUILD_DIR)/release
 	@mkdir -p $(REL_DIR)/Extras
@@ -114,11 +114,7 @@ release: all probe
 	@cp $(BUILD_DIR)/out/mhelper tools/load.sh tools/unload.sh README.md LICENSE $(REL_DIR)/Extras/
 	@cd $(BUILD_DIR)/release && ditto -c -k --keepParent $(RELEASE) $(RELEASE).zip
 	@echo "built $(BUILD_DIR)/release/$(RELEASE).zip"
-	@ln -s /Applications $(REL_DIR)/Applications
-	@hdiutil create -quiet -volname "$(RELEASE)" -srcfolder $(REL_DIR) -fs HFS+ \
-	    -format UDZO -ov $(BUILD_DIR)/release/$(RELEASE).dmg
-	@rm $(REL_DIR)/Applications
-	@echo "built $(BUILD_DIR)/release/$(RELEASE).dmg"
+	@tools/make_dmg.sh $(REL_DIR) $(BUILD_DIR)/release/$(RELEASE).dmg "$(RELEASE)"
 
 clean:
 	rm -rf $(BUILD_DIR)
