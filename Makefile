@@ -3,6 +3,7 @@
 #   make              kext + asusctl
 #   make kext         build/out/AsusWMIControl.kext
 #   make asusctl      build/out/asusctl (command-line client)
+#   make app          build/out/AsusWMIControl.app (menu-bar app)
 #   make probe        build/out/AsusWMIProbe.kext (read-only survey)
 #   make clean
 #
@@ -26,8 +27,8 @@ KMOD_CFLAGS   := $(ARCH) $(MINOS) -isysroot $(SDK) -nostdinc -mkernel \
                  -fno-builtin -fno-common -fno-stack-protector -DKERNEL \
                  -I$(MKSDK)/Headers -Wall
 
-.PHONY: all probe kext asusctl clean
-all: kext asusctl
+.PHONY: all probe kext asusctl app clean
+all: kext asusctl app
 
 PROBE_SRC    := $(PROJ_ROOT)/src/probe
 PROBE_OBJS   := $(BUILD_DIR)/probe/AsusWMIProbe.o $(BUILD_DIR)/probe/kmod_info.o
@@ -85,6 +86,19 @@ $(BUILD_DIR)/out/asusctl: tools/asusctl.c include/asus_wmi_uc.h
 	@mkdir -p $(dir $@)
 	@echo "  CC   asusctl"
 	@$(CC) -O2 -Wall -Werror $(MINOS) -Iinclude tools/asusctl.c -framework IOKit -framework CoreFoundation -o $@
+
+APP_SRCS   := $(wildcard app/Sources/*.swift)
+APP_BUNDLE := $(BUILD_DIR)/out/AsusWMIControl.app
+app: $(APP_SRCS) app/Info.plist include/asus_wmi_uc.h
+	@rm -rf $(APP_BUNDLE)
+	@mkdir -p $(APP_BUNDLE)/Contents/MacOS
+	@cp app/Info.plist $(APP_BUNDLE)/Contents/Info.plist
+	@echo "  SWIFT AsusWMIControl.app"
+	@xcrun swiftc -O -swift-version 5 -target x86_64-apple-macos13.0 -sdk $(SDK) \
+	    -import-objc-header include/asus_wmi_uc.h $(APP_SRCS) \
+	    -o $(APP_BUNDLE)/Contents/MacOS/AsusWMIControl
+	@codesign --force --sign - $(APP_BUNDLE) 2>/dev/null || true
+	@echo "built $(APP_BUNDLE)"
 
 clean:
 	rm -rf $(BUILD_DIR)

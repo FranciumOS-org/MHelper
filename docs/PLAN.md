@@ -19,7 +19,7 @@ Not yet tested: reapply after wake, Eco, overdrive write, RGB power states.
 - Charge limit (RSOC), panel overdrive, Fn-lock, boot sound.
 - Reapply settings after wake.
 
-## M2 — menu-bar app (SwiftUI, no Xcode needed: swiftc + bundle script)
+## M2 — menu-bar app (SwiftUI, no Xcode needed: swiftc + bundle script)   ← now (make app)
 Mode switcher, brightness, colour picker + effects, fan RPM, Eco toggle,
 charge limit. Saves settings; applies at login.
 
