@@ -5,7 +5,10 @@
 DSTS for every ID in include/asus_wmi_ids.h, logs and publishes the result
 (`ioreg -r -c AsusWMIProbe -k AsusWMI -w0`). Tells us what this firmware supports.
 
-## M1 — AsusWMIControl.kext + IOUserClient   ← now (tools/asusctl for testing)
+## M1 — AsusWMIControl.kext + IOUserClient   ✓ 2026-10-04 on FA507NU
+Works: kbd level, RGB colour/effects, Silent/Turbo, fan RPM, charge limit.
+Not yet tested: reapply after wake, Eco, overdrive write, RGB power states.
+
 - Runtime feature detection (DSTS presence), like Linux: UI shows only what exists.
 - Keyboard: brightness 0–3 (`0x80 | level` on KBD_BACKLIGHT); TUF RGB
   (`cmd | mode<<8 | r<<16 | g<<24`, `b | speed<<8`; cmd 0xb3 set / 0xb4 save;
