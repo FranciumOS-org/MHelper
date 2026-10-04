@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL-2.0
-// Connection to AsusWMIControl.kext (selectors in include/asus_wmi_uc.h).
+// Connection to MHelper.kext (selectors in include/asus_wmi_uc.h).
 import Foundation
 import IOKit
 
@@ -10,7 +10,7 @@ enum AsusError: Error, CustomStringConvertible {
 
     var description: String {
         switch self {
-        case .notLoaded: return "AsusWMIControl.kext is not loaded"
+        case .notLoaded: return "MHelper.kext is not loaded"
         case .open(let kr): return String(format: "Could not open the driver (0x%x)", kr)
         case .call(let kr):
             switch kr {

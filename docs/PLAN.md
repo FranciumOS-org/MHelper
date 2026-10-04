@@ -1,11 +1,11 @@
 # Plan
 
 ## M0 — probe (read-only)            ✓ 2026-10-03: 17/39 IDs present on FA507NU
-`AsusWMIProbe.kext`: finds the WMI method via `_WDG`, calls SPEC, SFUN and
+`MHelperProbe.kext` (class AsusWMIProbe): finds the WMI method via `_WDG`, calls SPEC, SFUN and
 DSTS for every ID in include/asus_wmi_ids.h, logs and publishes the result
 (`ioreg -r -c AsusWMIProbe -k AsusWMI -w0`). Tells us what this firmware supports.
 
-## M1 — AsusWMIControl.kext + IOUserClient   ✓ 2026-10-04 on FA507NU
+## M1 — MHelper.kext (class AsusWMIControl) + IOUserClient   ✓ 2026-10-04 on FA507NU
 Works: kbd level, RGB colour/effects, Silent/Turbo, fan RPM, charge limit.
 Not yet tested: reapply after wake, Eco, overdrive write, RGB power states.
 
@@ -19,7 +19,7 @@ Not yet tested: reapply after wake, Eco, overdrive write, RGB power states.
 - Charge limit (RSOC), panel overdrive, Fn-lock, boot sound.
 - Reapply settings after wake.
 
-## M2 — menu-bar app (SwiftUI, no Xcode needed: swiftc + bundle script)   ← now (make app)
+## M2 — menu-bar app (SwiftUI, no Xcode needed: swiftc + bundle script)   ← now ✓ 2026-10-04, colour wheel + hex field
 Mode switcher, brightness, colour picker + effects, fan RPM, Eco toggle,
 charge limit. Saves settings; applies at login.
 
@@ -31,7 +31,7 @@ Fn+F5 (fan key) cycles modes.
 ROG Aura keyboards over USB HID (N-KEY device, as G-Helper does) from the app,
 no kext; fan curves (CPU/GPU/MID_FAN_CURVE); TGP / PPT with firmware limits.
 
-## Release
+## Release   ← 0.1.0, github.com/FranciumOS-org/MHelper
 GPL-2.0. Testers' guide + log collector; the probe doubles as a "send us your
 report" tool for unknown models. Names: "for ASUS laptops", no ASUS logos.
 Refresh rate waits for the Rembrandt iGPU work (~/Developer/RembrandtGPU).

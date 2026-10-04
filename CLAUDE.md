@@ -1,9 +1,14 @@
-# AsusWMIControl — notes for Claude
+# MHelper — notes for Claude
 
-macOS (hackintosh) port of the Linux `asus-wmi` controls: keyboard backlight and
+MHelper ("G-Helper for Mac"): macOS (hackintosh) port of the Linux `asus-wmi` controls: keyboard backlight and
 TUF RGB, performance/fan modes, fan RPM, dGPU Eco mode, charge limit, panel
 overdrive. Goal: work on every ASUS laptop Linux asus-wmi supports, like G-Helper,
-and be released. Plan and milestones: docs/PLAN.md.
+released at github.com/FranciumOS-org/MHelper. Plan and milestones: docs/PLAN.md.
+
+Names: users see MHelper.kext (org.franciumos.mhelper.driver), MHelperProbe.kext
+(.probe), MHelper.app (.app), `mhelper` CLI. The C++/IOKit class names stay
+AsusWMIControl / AsusWMIUserClient / AsusWMIProbe (the app matches on the class).
+The folder is still ~/Developer/AsusWMIControl.
 
 ## Machine
 
@@ -31,4 +36,4 @@ their own IOMatchCategory so they attach next to AsusSMC.
   checks for DGPU vs MUX vs EGPU. No PPT/TGP writes without explicit limits from DSTS.
 - Clean-room: use Linux and G-Helper for the protocol (IDs, encodings), write our
   own code. Project is GPL-2.0.
-- Build: `make` (kext + asusctl), `make probe`; check imports with `kmutil libraries -p build/out/<kext> --undef-symbols`.
+- Build: `make` (kext + mhelper + app), `make probe`, `make release` (zip); check imports with `kmutil libraries -p build/out/<kext> --undef-symbols`.

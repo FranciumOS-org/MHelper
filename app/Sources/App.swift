@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: GPL-2.0
-// Menu-bar app for AsusWMIControl.kext.
+// MHelper: menu-bar app for MHelper.kext.
 import SwiftUI
 
 @main
-struct AsusWMIControlApp: App {
+struct MHelperApp: App {
     @StateObject private var ctl = Controller()
 
     var body: some Scene {
@@ -64,7 +64,7 @@ struct PanelView: View {
         VStack(alignment: .leading, spacing: 6) {
             Label("Driver not loaded", systemImage: "bolt.slash")
                 .font(.headline)
-            Text(ctl.lastError ?? "AsusWMIControl.kext is not running.")
+            Text(ctl.lastError ?? "MHelper.kext is not running.")
                 .font(.caption)
                 .foregroundStyle(.secondary)
             Button("Retry") { ctl.refresh(); ctl.applySaved() }

@@ -5,13 +5,13 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleExecutable</key>
-	<string>AsusWMIProbe</string>
+	<string>MHelperProbe</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.asuswmicontrol.probe</string>
+	<string>org.franciumos.mhelper.probe</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>AsusWMIProbe</string>
+	<string>MHelperProbe</string>
 	<key>CFBundlePackageType</key>
 	<string>KEXT</string>
 	<key>CFBundleShortVersionString</key>
@@ -27,7 +27,7 @@
 		<key>AsusWMIProbe</key>
 		<dict>
 			<key>CFBundleIdentifier</key>
-			<string>com.asuswmicontrol.probe</string>
+			<string>org.franciumos.mhelper.probe</string>
 			<key>IOClass</key>
 			<string>AsusWMIProbe</string>
 			<!-- Own category: attaches next to AsusSMC instead of competing with it -->

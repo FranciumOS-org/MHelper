@@ -1,17 +1,17 @@
 /* SPDX-License-Identifier: GPL-2.0 */
 /*
- * asusctl: command-line client for AsusWMIControl.kext.
+ * mhelper: command-line client for MHelper.kext.
  *
- *   asusctl                           status
- *   asusctl kbd <0-3>                 keyboard brightness
- *   asusctl color <rrggbb> [mode] [speed] [--save]
+ *   mhelper                           status
+ *   mhelper kbd <0-3>                 keyboard brightness
+ *   mhelper color <rrggbb> [mode] [speed] [--save]
  *                                     mode: static|breathe|cycle|strobe (or 0-11)
  *                                     speed: 0-2 (slow-fast); --save keeps it in firmware
- *   asusctl lights <boot> <awake> <sleep> <keyboard> [--save]   (each 0/1)
- *   asusctl mode <silent|balanced|turbo>
- *   asusctl charge <20-100>
- *   asusctl overdrive <0|1>
- *   asusctl eco <0|1>                 1 = dGPU off
+ *   mhelper lights <boot> <awake> <sleep> <keyboard> [--save]   (each 0/1)
+ *   mhelper mode <silent|balanced|turbo>
+ *   mhelper charge <20-100>
+ *   mhelper overdrive <0|1>
+ *   mhelper eco <0|1>                 1 = dGPU off
  */
 #include <IOKit/IOKitLib.h>
 #include <stdio.h>
@@ -27,7 +27,7 @@ static int open_service(void)
 	io_service_t svc = IOServiceGetMatchingService(MACH_PORT_NULL,
 	                                               IOServiceMatching(ASUS_WMI_SERVICE_CLASS));
 	if (!svc) {
-		fprintf(stderr, "AsusWMIControl.kext is not loaded\n");
+		fprintf(stderr, "MHelper.kext is not loaded\n");
 		return -1;
 	}
 	kern_return_t kr = IOServiceOpen(svc, mach_task_self(), 0, &conn);
@@ -105,7 +105,7 @@ static int has_save(int argc, char **argv)
 static int usage(void)
 {
 	fprintf(stderr,
-	        "usage: asusctl [kbd 0-3 | color rrggbb [static|breathe|cycle|strobe] [0-2] [--save] |\n"
+	        "usage: mhelper [kbd 0-3 | color rrggbb [static|breathe|cycle|strobe] [0-2] [--save] |\n"
 	        "                lights boot awake sleep keyboard [--save] |\n"
 	        "                mode silent|balanced|turbo | charge 20-100 | overdrive 0|1 | eco 0|1]\n");
 	return 2;

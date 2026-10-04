@@ -1,7 +1,8 @@
 /* SPDX-License-Identifier: GPL-2.0 */
 /*
- * Interface between AsusWMIControl.kext (AsusWMIUserClient) and its clients
- * (tools/asusctl, the app). Plain C, shared by kernel and user space.
+ * Interface between MHelper.kext (class AsusWMIControl, user client
+ * AsusWMIUserClient) and its clients (tools/mhelper.c, MHelper.app).
+ * Plain C, shared by kernel and user space.
  */
 #ifndef ASUS_WMI_UC_H
 #define ASUS_WMI_UC_H
