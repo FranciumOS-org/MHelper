@@ -112,6 +112,7 @@ release: all probe
 	@cp "docs/How to install.txt" $(REL_DIR)/
 	@cp -R $(PROBE_BUNDLE) $(REL_DIR)/Extras/
 	@cp $(BUILD_DIR)/out/mhelper tools/load.sh tools/unload.sh README.md LICENSE $(REL_DIR)/Extras/
+	@cp efi/install.sh efi/uninstall.sh efi/configure.py efi/find_efi.sh $(REL_DIR)/Extras/
 	@cd $(BUILD_DIR)/release && ditto -c -k --keepParent $(RELEASE) $(RELEASE).zip
 	@echo "built $(BUILD_DIR)/release/$(RELEASE).zip"
 	@tools/make_dmg.sh $(REL_DIR) $(BUILD_DIR)/release/$(RELEASE).dmg "$(RELEASE)"

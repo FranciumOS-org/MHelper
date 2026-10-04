@@ -36,4 +36,6 @@ their own IOMatchCategory so they attach next to AsusSMC.
   checks for DGPU vs MUX vs EGPU. No PPT/TGP writes without explicit limits from DSTS.
 - Clean-room: use Linux and G-Helper for the protocol (IDs, encodings), write our
   own code. Project is GPL-2.0.
+- EFI: `sudo efi/install.sh` / `efi/uninstall.sh` (find_efi.sh from AirPort_RTW89).
+  Claude prepares, the user runs them; Claude never edits the EFI itself.
 - Build: `make` (kext + mhelper + app), `make probe`, `make release` (zip); check imports with `kmutil libraries -p build/out/<kext> --undef-symbols`.

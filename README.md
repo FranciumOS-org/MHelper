@@ -41,6 +41,13 @@ Download `MHelper-<version>.dmg` (or `.zip`) from [Releases](../../releases). In
 
 ### 1. The kext, with OpenCore
 
+**Automatic:** `sudo Extras/install.sh` finds your OpenCore EFI, copies `MHelper.kext`
+to `EFI/OC/Kexts`, adds it to `config.plist` (backup: `config.plist.pre-mhelper`) and
+asks you to restart. `sudo Extras/uninstall.sh` switches it off again. If OpenCore is on
+more than one drive, it lists them and asks which one.
+
+**By hand:**
+
 1. Copy `MHelper.kext` to `EFI/OC/Kexts/`.
 2. In `config.plist`, add to **Kernel → Add**:
 

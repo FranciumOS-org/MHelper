@@ -3,6 +3,13 @@ MHelper — G-Helper for macOS on ASUS laptops
 
 1. THE KEXT (once, with OpenCore)
 
+   Automatic: open Terminal, type  sudo  and a space, drag Extras/install.sh
+   into the window, press Return and enter your password. It finds your
+   OpenCore EFI, copies MHelper.kext into EFI/OC/Kexts, adds it to config.plist
+   (keeping a backup, config.plist.pre-mhelper) and tells you to restart.
+   Undo with Extras/uninstall.sh the same way.
+
+   By hand:
    - Mount your EFI partition.
    - Copy MHelper.kext into  EFI/OC/Kexts/
    - Add it to config.plist (Kernel > Add). Easiest: open config.plist in
@@ -41,6 +48,8 @@ EXTRAS FOLDER
    - MHelperProbe.kext  lists what your laptop's firmware supports. Please
                         send its output with your model to the GitHub issues:
                             sudo Extras/load.sh probe
+   - install.sh         put the kext in your EFI (see step 1);
+     uninstall.sh       uninstall.sh switches it off again
    - load.sh/unload.sh  try the kext without putting it in your EFI
                         (needs unsigned kexts allowed; gone after a reboot):
                             sudo Extras/load.sh
