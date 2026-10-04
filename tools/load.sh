@@ -18,7 +18,7 @@ else
 fi
 src="$(cd "$(dirname "$0")/.." && pwd)/build/out/$name.kext"
 stage=/private/var/tmp/MHelper.stage
-[ -d "$src" ] || { echo "no kext at $src; run: make" >&2; exit 1; }
+[ -n "$src" ] || { echo "$name.kext not found; in a checkout run: make" >&2; exit 1; }
 
 if kmutil showloaded 2>/dev/null | grep -q "$id"; then
     echo "$id is already loaded; run sudo tools/unload.sh first" >&2
@@ -42,5 +42,7 @@ if [ "$name" = MHelperProbe ]; then
     ioreg -r -c AsusWMIProbe -k AsusWMI -w0 | grep -A60 '"AsusWMI"' | tr ',' '\n'
 else
     echo "--- status"
-    "$(dirname "$0")/../build/out/mhelper" || true
+    for m in "$here/../build/out/mhelper" "$here/mhelper" "$here/../mhelper"; do
+        [ -x "$m" ] && { "$m" || true; break; }
+    done
 fi

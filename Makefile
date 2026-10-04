@@ -103,17 +103,22 @@ app: $(APP_SRCS) app/Info.plist include/asus_wmi_uc.h
 VERSION := $(shell /usr/libexec/PlistBuddy -c 'Print CFBundleShortVersionString' app/Info.plist)
 RELEASE := MHelper-$(VERSION)
 REL_DIR := $(BUILD_DIR)/release/$(RELEASE)
+# One folder for users: the app, the kext, how to install; the rest in Extras/.
+# The .dmg adds an Applications link to drag the app onto.
 release: all probe
 	@rm -rf $(BUILD_DIR)/release
-	@mkdir -p $(REL_DIR)/tools
-	@cp -R $(KEXT_BUNDLE) $(PROBE_BUNDLE) $(APP_BUNDLE) $(REL_DIR)/
-	@cp $(BUILD_DIR)/out/mhelper $(REL_DIR)/
-	@cp tools/load.sh tools/unload.sh $(REL_DIR)/tools/
-	@cp README.md LICENSE $(REL_DIR)/
-	@# load.sh looks for build/out next to tools/; in the zip the kexts sit beside it
-	@sed -i '' 's|/build/out/|/|; s|"\$$(dirname "\$$0")/../build/out/mhelper"|"\$$(dirname "\$$0")/../mhelper"|' $(REL_DIR)/tools/load.sh
+	@mkdir -p $(REL_DIR)/Extras
+	@cp -R $(APP_BUNDLE) $(KEXT_BUNDLE) $(REL_DIR)/
+	@cp "docs/How to install.txt" $(REL_DIR)/
+	@cp -R $(PROBE_BUNDLE) $(REL_DIR)/Extras/
+	@cp $(BUILD_DIR)/out/mhelper tools/load.sh tools/unload.sh README.md LICENSE $(REL_DIR)/Extras/
 	@cd $(BUILD_DIR)/release && ditto -c -k --keepParent $(RELEASE) $(RELEASE).zip
 	@echo "built $(BUILD_DIR)/release/$(RELEASE).zip"
+	@ln -s /Applications $(REL_DIR)/Applications
+	@hdiutil create -quiet -volname "$(RELEASE)" -srcfolder $(REL_DIR) -fs HFS+ \
+	    -format UDZO -ov $(BUILD_DIR)/release/$(RELEASE).dmg
+	@rm $(REL_DIR)/Applications
+	@echo "built $(BUILD_DIR)/release/$(RELEASE).dmg"
 
 clean:
 	rm -rf $(BUILD_DIR)

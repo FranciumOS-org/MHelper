@@ -67,6 +67,10 @@ struct PanelView: View {
             Text(ctl.lastError ?? "MHelper.kext is not running.")
                 .font(.caption)
                 .foregroundStyle(.secondary)
+            Text("Put MHelper.kext in EFI/OC/Kexts, add it to config.plist and reboot. See \"How to install.txt\".")
+                .font(.caption)
+                .foregroundStyle(.secondary)
+                .fixedSize(horizontal: false, vertical: true)
             Button("Retry") { ctl.refresh(); ctl.applySaved() }
                 .controlSize(.small)
         }

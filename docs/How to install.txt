@@ -1,0 +1,50 @@
+MHelper — G-Helper for macOS on ASUS laptops
+==============================================
+
+1. THE KEXT (once, with OpenCore)
+
+   - Mount your EFI partition.
+   - Copy MHelper.kext into  EFI/OC/Kexts/
+   - Add it to config.plist (Kernel > Add). Easiest: open config.plist in
+     ProperTree and press Cmd+Shift+R (OC Snapshot). Or add an entry by hand:
+         Arch            x86_64
+         BundlePath      MHelper.kext
+         Enabled         True
+         ExecutablePath  Contents/MacOS/MHelper
+         PlistPath       Contents/Info.plist
+         MinKernel       22.0.0
+   - Reboot.
+
+   No Lilu needed. MHelper works next to AsusSMC.
+
+2. THE APP
+
+   - Drag MHelper.app to Applications and open it.
+   - First time only, macOS will say it can't check the app (it isn't
+     notarised). Right-click MHelper.app > Open > Open.
+     Or in Terminal:  xattr -dr com.apple.quarantine /Applications/MHelper.app
+   - MHelper lives in the menu bar (top right), not in the Dock.
+   - In its panel, tick "Open at login".
+
+That's it. The app only shows what your laptop supports.
+
+GOOD TO KNOW
+
+   - Loading MHelper changes nothing; every change comes from you.
+   - Keyboard colours reset at reboot unless you click "Save to firmware".
+   - Eco mode turns the NVIDIA GPU off, also in Windows, until you turn Eco
+     off again (a reboot may be needed for it to come back).
+
+EXTRAS FOLDER
+
+   - mhelper            command-line version (run ./mhelper for help)
+   - MHelperProbe.kext  lists what your laptop's firmware supports. Please
+                        send its output with your model to the GitHub issues:
+                            sudo Extras/load.sh probe
+   - load.sh/unload.sh  try the kext without putting it in your EFI
+                        (needs unsigned kexts allowed; gone after a reboot):
+                            sudo Extras/load.sh
+   - README.md, LICENSE (GPL-2.0)
+
+https://github.com/FranciumOS-org/MHelper
+Not affiliated with ASUS.

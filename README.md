@@ -36,7 +36,8 @@ work for the features their firmware has. Please report your model: see
 
 ## Install
 
-Download `MHelper-<version>.zip` from [Releases](../../releases) and unzip it.
+Download `MHelper-<version>.dmg` (or `.zip`) from [Releases](../../releases). Inside:
+`MHelper.app`, `MHelper.kext`, `How to install.txt`, and an `Extras` folder.
 
 ### 1. The kext, with OpenCore
 
@@ -58,7 +59,7 @@ Download `MHelper-<version>.zip` from [Releases](../../releases) and unzip it.
 To try it first without touching your EFI (needs unsigned kexts allowed, for example
 `csr-active-config` `0x03`; it is gone after a reboot):
 
-    sudo tools/load.sh
+    sudo Extras/load.sh
 
 ### 2. The app
 
@@ -99,7 +100,7 @@ It lives in the menu bar (no Dock icon). Tick **Open at login** in its panel.
 `MHelperProbe.kext` (in the zip) only reads: it lists every ASUS WMI feature your
 firmware reports. Load it and open an issue with the output and your model:
 
-    sudo tools/load.sh probe
+    sudo Extras/load.sh probe
 
 ## Building
 
@@ -107,7 +108,7 @@ Command Line Tools are enough (no Xcode):
 
     make            # MHelper.kext, mhelper, MHelper.app in build/out
     make probe      # MHelperProbe.kext
-    make release    # build/release/MHelper-<version>.zip
+    make release    # build/release/MHelper-<version>.dmg and .zip
 
 ## Not working yet
 
