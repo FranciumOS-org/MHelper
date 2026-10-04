@@ -150,6 +150,23 @@ struct PanelView: View {
                         get: { ctl.color },
                         set: { ctl.color = $0; ctl.sendColor() }), supportsOpacity: false)
                         .labelsHidden()
+                        .help("System colour picker")
+                }
+                HStack(alignment: .center, spacing: 12) {
+                    ColorWheel(color: $ctl.color, onChange: { ctl.sendColor() })
+                        .frame(width: 120, height: 120)
+                    VStack(alignment: .leading, spacing: 8) {
+                        RoundedRectangle(cornerRadius: 6)
+                            .fill(ctl.color)
+                            .frame(width: 104, height: 36)
+                            .overlay(RoundedRectangle(cornerRadius: 6)
+                                .stroke(.secondary.opacity(0.4), lineWidth: 0.5))
+                        HexField(color: $ctl.color, onChange: { ctl.sendColor() })
+                        let (r, g, b) = ctl.color.rgb255
+                        Text("R \(r)  G \(g)  B \(b)")
+                            .font(.caption.monospacedDigit())
+                            .foregroundStyle(.secondary)
+                    }
                 }
                 HStack {
                     Picker("Effect", selection: Binding(
