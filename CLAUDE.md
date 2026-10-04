@@ -31,4 +31,4 @@ their own IOMatchCategory so they attach next to AsusSMC.
   checks for DGPU vs MUX vs EGPU. No PPT/TGP writes without explicit limits from DSTS.
 - Clean-room: use Linux and G-Helper for the protocol (IDs, encodings), write our
   own code. Project is GPL-2.0.
-- Build: `make probe`; check imports with `kmutil libraries -p build/out/<kext> --undef-symbols`.
+- Build: `make` (kext + asusctl), `make probe`; check imports with `kmutil libraries -p build/out/<kext> --undef-symbols`.

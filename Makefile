@@ -1,5 +1,8 @@
 # AsusWMIControl: ASUS laptop controls (keyboard light, fans, GPU) for macOS
 #
+#   make              kext + asusctl
+#   make kext         build/out/AsusWMIControl.kext
+#   make asusctl      build/out/asusctl (command-line client)
 #   make probe        build/out/AsusWMIProbe.kext (read-only survey)
 #   make clean
 #
@@ -23,8 +26,8 @@ KMOD_CFLAGS   := $(ARCH) $(MINOS) -isysroot $(SDK) -nostdinc -mkernel \
                  -fno-builtin -fno-common -fno-stack-protector -DKERNEL \
                  -I$(MKSDK)/Headers -Wall
 
-.PHONY: all probe clean
-all: probe
+.PHONY: all probe kext asusctl clean
+all: kext asusctl
 
 PROBE_SRC    := $(PROJ_ROOT)/src/probe
 PROBE_OBJS   := $(BUILD_DIR)/probe/AsusWMIProbe.o $(BUILD_DIR)/probe/kmod_info.o
@@ -51,7 +54,39 @@ probe: $(PROBE_OBJS) $(PROBE_SRC)/Info.plist
 	@codesign --force --sign - $(PROBE_BUNDLE) 2>/dev/null || true
 	@echo "built $(PROBE_BUNDLE)"
 
+KEXT_SRC    := $(PROJ_ROOT)/src/kext
+KEXT_OBJS   := $(BUILD_DIR)/kext/AsusWMIControl.o $(BUILD_DIR)/kext/AsusWMIUserClient.o \
+               $(BUILD_DIR)/kext/kmod_info.o
+KEXT_BUNDLE := $(BUILD_DIR)/out/AsusWMIControl.kext
+
+$(BUILD_DIR)/kext/%.o: $(KEXT_SRC)/%.cpp
+	@mkdir -p $(dir $@)
+	@echo "  CXX  kext/$*.cpp"
+	@$(CXX) $(KEXT_CXXFLAGS) -c $< -o $@
+
+$(BUILD_DIR)/kext/%.o: $(KEXT_SRC)/%.c
+	@mkdir -p $(dir $@)
+	@echo "  CC   kext/$*.c"
+	@$(CC) $(KMOD_CFLAGS) -c $< -o $@
+
+kext: $(KEXT_OBJS) $(KEXT_SRC)/Info.plist
+	@rm -rf $(KEXT_BUNDLE)
+	@mkdir -p $(KEXT_BUNDLE)/Contents/MacOS
+	@cp $(KEXT_SRC)/Info.plist $(KEXT_BUNDLE)/Contents/Info.plist
+	@echo "  LD   AsusWMIControl.kext"
+	@$(CXX) $(ARCH) $(MINOS) -isysroot $(SDK) -nostdlib -Xlinker -kext \
+	    -L$(MKSDK)/Library/x86_64 $(KEXT_OBJS) -lkmod -lcc_kext \
+	    -o $(KEXT_BUNDLE)/Contents/MacOS/AsusWMIControl
+	@codesign --force --sign - $(KEXT_BUNDLE) 2>/dev/null || true
+	@echo "built $(KEXT_BUNDLE)"
+
+asusctl: $(BUILD_DIR)/out/asusctl
+$(BUILD_DIR)/out/asusctl: tools/asusctl.c include/asus_wmi_uc.h
+	@mkdir -p $(dir $@)
+	@echo "  CC   asusctl"
+	@$(CC) -O2 -Wall -Werror $(MINOS) -Iinclude tools/asusctl.c -framework IOKit -framework CoreFoundation -o $@
+
 clean:
 	rm -rf $(BUILD_DIR)
 
--include $(PROBE_OBJS:.o=.d)
+-include $(PROBE_OBJS:.o=.d) $(KEXT_OBJS:.o=.d)

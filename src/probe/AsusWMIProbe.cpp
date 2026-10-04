@@ -230,6 +230,10 @@ bool AsusWMIProbe::start(IOService *provider)
 		bool ok = call(dstsId, d.id, 0, &v);
 		bool has = ok && v != ASUS_WMI_UNSUPPORTED_METHOD && v != ~0U &&
 		           (v & ASUS_WMI_DSTS_PRESENCE_BIT);
+		/* Fan curve IDs return curve bytes (temperatures), not status bits. */
+		if (d.id == ASUS_WMI_DEVID_CPU_FAN_CURVE || d.id == ASUS_WMI_DEVID_GPU_FAN_CURVE ||
+		    d.id == ASUS_WMI_DEVID_MID_FAN_CURVE)
+			has = ok && v != ASUS_WMI_UNSUPPORTED_METHOD && v != ~0U && v != 0;
 		if (ok)
 			snprintf(line, sizeof(line), "%s 0x%08x", has ? "present" : "absent", v);
 		else

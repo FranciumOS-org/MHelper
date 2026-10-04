@@ -1,11 +1,11 @@
 # Plan
 
-## M0 — probe (read-only)            ← now
+## M0 — probe (read-only)            ✓ 2026-10-03: 17/39 IDs present on FA507NU
 `AsusWMIProbe.kext`: finds the WMI method via `_WDG`, calls SPEC, SFUN and
 DSTS for every ID in include/asus_wmi_ids.h, logs and publishes the result
 (`ioreg -r -c AsusWMIProbe -k AsusWMI -w0`). Tells us what this firmware supports.
 
-## M1 — AsusWMIControl.kext + IOUserClient
+## M1 — AsusWMIControl.kext + IOUserClient   ← now (tools/asusctl for testing)
 - Runtime feature detection (DSTS presence), like Linux: UI shows only what exists.
 - Keyboard: brightness 0–3 (`0x80 | level` on KBD_BACKLIGHT); TUF RGB
   (`cmd | mode<<8 | r<<16 | g<<24`, `b | speed<<8`; cmd 0xb3 set / 0xb4 save;
