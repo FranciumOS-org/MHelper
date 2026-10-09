@@ -45,6 +45,7 @@ GOOD TO KNOW
 EXTRAS FOLDER
 
    - mhelper            command-line version (run ./mhelper for help)
+   - rogmouse           ROG mouse settings from Terminal (run ./rogmouse)
    - MHelperProbe.kext  lists what your laptop's firmware supports. Please
                         send its output with your model to the GitHub issues:
                             sudo Extras/load.sh probe

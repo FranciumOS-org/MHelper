@@ -15,13 +15,13 @@
 	<key>CFBundlePackageType</key>
 	<string>KEXT</string>
 	<key>CFBundleShortVersionString</key>
-	<string>0.1.0</string>
+	<string>0.2.0</string>
 	<key>CFBundleSupportedPlatforms</key>
 	<array>
 		<string>MacOSX</string>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>0.1.0</string>
+	<string>0.2.0</string>
 	<key>IOKitPersonalities</key>
 	<dict>
 		<key>AsusWMIProbe</key>
@@ -30,7 +30,6 @@
 			<string>org.franciumos.mhelper.probe</string>
 			<key>IOClass</key>
 			<string>AsusWMIProbe</string>
-			<!-- Own category: attaches next to AsusSMC instead of competing with it -->
 			<key>IOMatchCategory</key>
 			<string>AsusWMIProbe</string>
 			<key>IONameMatch</key>

@@ -105,13 +105,13 @@ RELEASE := MHelper-$(VERSION)
 REL_DIR := $(BUILD_DIR)/release/$(RELEASE)
 # One folder for users: the app, the kext, how to install; the rest in Extras/.
 # The .dmg is styled: drag the app onto Applications (tools/make_dmg.sh).
-release: all probe
+release: all probe rogmouse
 	@rm -rf $(BUILD_DIR)/release
 	@mkdir -p $(REL_DIR)/Extras
 	@cp -R $(APP_BUNDLE) $(KEXT_BUNDLE) $(REL_DIR)/
 	@cp "docs/How to install.txt" $(REL_DIR)/
 	@cp -R $(PROBE_BUNDLE) $(REL_DIR)/Extras/
-	@cp $(BUILD_DIR)/out/mhelper tools/load.sh tools/unload.sh README.md LICENSE $(REL_DIR)/Extras/
+	@cp $(BUILD_DIR)/out/mhelper $(BUILD_DIR)/out/rogmouse tools/load.sh tools/unload.sh README.md LICENSE $(REL_DIR)/Extras/
 	@cp efi/install.sh efi/uninstall.sh efi/configure.py efi/find_efi.sh $(REL_DIR)/Extras/
 	@cd $(BUILD_DIR)/release && ditto -c -k --keepParent $(RELEASE) $(RELEASE).zip
 	@echo "built $(BUILD_DIR)/release/$(RELEASE).zip"
