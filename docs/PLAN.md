@@ -38,5 +38,6 @@ Refresh rate waits for the Rembrandt iGPU work (~/Developer/RembrandtGPU).
 
 ## M5 — ROG mice (USB HID, user space)   ✓ 2026-10-09, Mouse tab verified on Strix Impact III
 tools/rogmouse and the app's Mouse tab (app/Sources/RogMouse.swift), protocol from
-G-Helper AsusMouse.cs. Strix Impact III verified. Next: more models from
-G-Helper's Peripherals/Mouse/Models (each is a table entry), wireless/battery.
+G-Helper AsusMouse.cs. Strix Impact III verified. All 67 G-Helper mouse models in app/Sources/MouseModels.swift (quirk flags for the
+older protocols, Omni receiver detection via 01 A0). Only the Impact III is tested.
+Not yet: battery, power-off, lift-off, debounce, button bindings; Balteus/Bulwark.

@@ -61,13 +61,16 @@ final class MouseController: ObservableObject {
     func currentLight(_ st: MouseState? = nil) -> MouseLight {
         let s = st ?? state
         guard let s, !s.lights.isEmpty else {
-            return MouseLight(mode: .staticColor, brightness: 100, r: 255, g: 255, b: 255)
+            return MouseLight(mode: .staticColor, brightness: model?.maxBrightness ?? 100, r: 255, g: 255, b: 255)
         }
         return s.lights[zone ?? 0]
     }
 
     func setSlot(_ slot: Int) { run { try $0.setSlot(slot) } }
-    func setDPI(slot: Int, dpi: Int) { run { try $0.setDPI(slot: slot, dpi: dpi) } }
+    func setDPI(slot: Int, dpi: Int) {
+        let color = state.flatMap { slot - 1 < $0.dpiColors.count ? $0.dpiColors[slot - 1] : nil }
+        run { try $0.setDPI(slot: slot, dpi: dpi, color: color) }
+    }
     func setPolling(_ hz: Int) { run { try $0.setPolling(hz) } }
     func setAngleSnapping(_ on: Bool) { run { try $0.setAngleSnapping(on) } }
 

@@ -25,7 +25,7 @@ struct MouseView: View {
                 if let st = mouse.state {
                     dpiSection(model, st)
                     sensorSection(model, st)
-                    lightSection(model, st)
+                    if model.hasRGB { lightSection(model, st) }
                 } else {
                     ProgressView().controlSize(.small)
                 }
@@ -63,7 +63,8 @@ struct MouseView: View {
                         .buttonStyle(.bordered)
                         .background(st.dpiSlot == i + 1 ? Color.accentColor.opacity(0.25) : .clear,
                                     in: RoundedRectangle(cornerRadius: 6))
-                        .help("Use this DPI slot")
+                        .disabled(!model.canChangeSlot)
+                        .help(model.canChangeSlot ? "Use this DPI slot" : "Switch slots with the button on the mouse")
                         TextField("", text: Binding(
                             get: { dpiText[i].isEmpty ? "\(st.dpi[i])" : dpiText[i] },
                             set: { dpiText[i] = $0 }))
@@ -84,7 +85,7 @@ struct MouseView: View {
         let text = dpiText[i]
         dpiText[i] = ""
         guard var v = Int(text.trimmingCharacters(in: .whitespaces)) else { return }
-        v = min(max(v, model.minDPI), model.maxDPI) / model.dpiStep * model.dpiStep
+        v = min(max(v, max(model.minDPI, model.dpiStep)), model.maxDPI) / model.dpiStep * model.dpiStep
         mouse.setDPI(slot: i + 1, dpi: v)
     }
 
@@ -101,7 +102,7 @@ struct MouseView: View {
                 }
             }
             .pickerStyle(.segmented)
-            if model.hasAngleSnapping {
+            if model.angleSnapping {
                 Toggle("Angle snapping", isOn: Binding(
                     get: { st.angleSnapping },
                     set: { mouse.setAngleSnapping($0) }))
@@ -121,7 +122,7 @@ struct MouseView: View {
                     set: { mouse.setZone($0 < 0 ? nil : $0) })) {
                     Text("All").tag(-1)
                     ForEach(model.zones.indices, id: \.self) { i in
-                        Text(model.zones[i].name).tag(i)
+                        Text(model.zones[i].title).tag(i)
                     }
                 }
                 .pickerStyle(.segmented)
@@ -139,7 +140,7 @@ struct MouseView: View {
             if light.mode != .off {
                 HStack {
                     Image(systemName: "sun.min").foregroundStyle(.secondary)
-                    BrightnessDragCatcher(value: light.brightness) { mouse.setBrightness($0) }
+                    BrightnessDragCatcher(value: light.brightness, max: model.maxBrightness) { mouse.setBrightness($0) }
                     Image(systemName: "sun.max").foregroundStyle(.secondary)
                 }
             }
@@ -176,13 +177,14 @@ struct MouseView: View {
 /// A slider that only sends when the drag ends (each change is a USB write + save).
 private struct BrightnessDragCatcher: View {
     let value: Int
+    let max: Int
     let commit: (Int) -> Void
     @State private var local: Double?
 
     var body: some View {
         Slider(value: Binding(
             get: { local ?? Double(value) },
-            set: { local = $0 }), in: 0...100, onEditingChanged: { editing in
+            set: { local = $0 }), in: 0...Double(max), step: 1, onEditingChanged: { editing in
                 if !editing, let v = local {
                     commit(Int(v.rounded()))
                     local = nil

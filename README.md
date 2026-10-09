@@ -14,7 +14,7 @@ Linux's `asus-wmi` driver and G-Helper on Windows. It works alongside AsusSMC.
 | Keyboard | Brightness 0–3; RGB colour (wheel, hex, swatches), Static / Breathing / Colour cycle / Strobe, speed; lit while asleep; save to firmware |
 | Battery | Charge limit (60 / 80 / 100 %) |
 | Display & GPU | Panel overdrive; Eco mode (NVIDIA dGPU off) |
-| ROG mouse | DPI slots, polling rate, angle snapping, logo/wheel lighting (Mouse tab; no kext needed) |
+| ROG / TUF mice | DPI slots, polling rate, angle snapping, per-zone lighting (Mouse tab; no kext needed). 67 models from G-Helper's list, see below |
 
 The app only shows what your laptop's firmware reports, so it adapts to each model.
 Settings are reapplied at login and after sleep.
@@ -25,6 +25,14 @@ Settings are reapplied at login and after sleep.
 |---|---|
 | ASUS TUF Gaming A15 FA507NU (2023) | Everything above works. Eco mode not yet tested. |
 | ROG Strix Impact III (wired, `0b05:1a88`) | DPI, polling, angle snapping, lighting |
+
+**Mice:** every mouse G-Helper supports is in the table (`app/Sources/MouseModels.swift`):
+Chakram (X, Core), Gladius II / III (Aimpoint, Eva 2, PNK, COD), Harpe Ace (Aim Lab,
+Extreme, Mini) and Harpe II Ace, Keris (Wireless, EVA, Aimpoint, II Ace, II Origin),
+Pugio / Pugio II, Spatha X, Strix Carry / Evolve / Impact I-III, TUF Gaming M3 / M4 / M5,
+TX Gaming Mouse, MD200 — wired, wireless dongle and Omni receiver. Only the Strix
+Impact III has been tried on macOS so far; if yours works (or doesn't), please say so in
+an issue.
 
 Other ASUS laptops that Linux `asus-wmi` supports (TUF, ROG, Zenbook, Vivobook) should
 work for the features their firmware has. Please report your model: see
