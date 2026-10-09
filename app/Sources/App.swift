@@ -5,11 +5,13 @@ import SwiftUI
 @main
 struct MHelperApp: App {
     @StateObject private var ctl = Controller()
+    @StateObject private var mouse = MouseController()
 
     var body: some Scene {
         MenuBarExtra {
             PanelView()
                 .environmentObject(ctl)
+                .environmentObject(mouse)
         } label: {
             Image(systemName: (ctl.policy ?? .balanced).symbol)
         }
@@ -19,12 +21,24 @@ struct MHelperApp: App {
 
 struct PanelView: View {
     @EnvironmentObject var ctl: Controller
+    @EnvironmentObject var mouse: MouseController
+    @State private var tab = 0
     @State private var confirmEco = false
     private let swatches: [Color] = [.white, .red, .orange, .yellow, .green, .cyan, .blue, .purple, .pink]
 
     var body: some View {
         VStack(alignment: .leading, spacing: 14) {
-            if ctl.status == nil {
+            if mouse.model != nil {
+                Picker("", selection: $tab) {
+                    Label("Laptop", systemImage: "laptopcomputer").tag(0)
+                    Label("Mouse", systemImage: "computermouse").tag(1)
+                }
+                .pickerStyle(.segmented)
+                .labelsHidden()
+            }
+            if mouse.model != nil && tab == 1 {
+                MouseView()
+            } else if ctl.status == nil {
                 notLoaded
             } else {
                 if ctl.features.contains(.thermal) { modeSection }
@@ -33,7 +47,7 @@ struct PanelView: View {
                 if ctl.features.contains(.chargeLimit) { batterySection }
                 if ctl.features.contains(.panelOD) || ctl.features.contains(.dgpu) { displaySection }
             }
-            if let err = ctl.lastError, ctl.status != nil {
+            if let err = ctl.lastError, ctl.status != nil, !(mouse.model != nil && tab == 1) {
                 Label(err, systemImage: "exclamationmark.triangle")
                     .font(.caption)
                     .foregroundStyle(.red)

@@ -35,3 +35,8 @@ no kext; fan curves (CPU/GPU/MID_FAN_CURVE); TGP / PPT with firmware limits.
 GPL-2.0. Testers' guide + log collector; the probe doubles as a "send us your
 report" tool for unknown models. Names: "for ASUS laptops", no ASUS logos.
 Refresh rate waits for the Rembrandt iGPU work (~/Developer/RembrandtGPU).
+
+## M5 — ROG mice (USB HID, user space)   ← 2026-10-09
+tools/rogmouse and the app's Mouse tab (app/Sources/RogMouse.swift), protocol from
+G-Helper AsusMouse.cs. Strix Impact III verified. Next: more models from
+G-Helper's Peripherals/Mouse/Models (each is a table entry), wireless/battery.

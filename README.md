@@ -14,6 +14,7 @@ Linux's `asus-wmi` driver and G-Helper on Windows. It works alongside AsusSMC.
 | Keyboard | Brightness 0–3; RGB colour (wheel, hex, swatches), Static / Breathing / Colour cycle / Strobe, speed; lit while asleep; save to firmware |
 | Battery | Charge limit (60 / 80 / 100 %) |
 | Display & GPU | Panel overdrive; Eco mode (NVIDIA dGPU off) |
+| ROG mouse | DPI slots, polling rate, angle snapping, logo/wheel lighting (Mouse tab; no kext needed) |
 
 The app only shows what your laptop's firmware reports, so it adapts to each model.
 Settings are reapplied at login and after sleep.
@@ -23,6 +24,7 @@ Settings are reapplied at login and after sleep.
 | Laptop | Status |
 |---|---|
 | ASUS TUF Gaming A15 FA507NU (2023) | Everything above works. Eco mode not yet tested. |
+| ROG Strix Impact III (wired, `0b05:1a88`) | DPI, polling, angle snapping, lighting |
 
 Other ASUS laptops that Linux `asus-wmi` supports (TUF, ROG, Zenbook, Vivobook) should
 work for the features their firmware has. Please report your model: see
