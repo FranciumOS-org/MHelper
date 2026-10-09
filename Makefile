@@ -27,7 +27,7 @@ KMOD_CFLAGS   := $(ARCH) $(MINOS) -isysroot $(SDK) -nostdinc -mkernel \
                  -fno-builtin -fno-common -fno-stack-protector -DKERNEL \
                  -I$(MKSDK)/Headers -Wall
 
-.PHONY: all probe kext mhelper app release clean
+.PHONY: all probe kext mhelper app release rogmouse clean
 all: kext mhelper app
 
 PROBE_SRC    := $(PROJ_ROOT)/src/probe
@@ -116,6 +116,12 @@ release: all probe
 	@cd $(BUILD_DIR)/release && ditto -c -k --keepParent $(RELEASE) $(RELEASE).zip
 	@echo "built $(BUILD_DIR)/release/$(RELEASE).zip"
 	@tools/make_dmg.sh $(REL_DIR) $(BUILD_DIR)/release/$(RELEASE).dmg "$(RELEASE)"
+
+rogmouse: $(BUILD_DIR)/out/rogmouse
+$(BUILD_DIR)/out/rogmouse: tools/rogmouse.c
+	@mkdir -p $(dir $@)
+	@echo "  CC   rogmouse"
+	@$(CC) -O2 -Wall -Werror $(MINOS) tools/rogmouse.c -framework IOKit -framework CoreFoundation -o $@
 
 clean:
 	rm -rf $(BUILD_DIR)
